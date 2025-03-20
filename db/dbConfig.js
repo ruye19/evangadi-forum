@@ -8,11 +8,12 @@ const mysql2 = require('mysql2')
     connectionLimit:10
  })
 
- DBConnection.execute("select 'test' " , (err,result)=>{
-    if (err) {
-        console.log(err.message);
+//  DBConnection.execute("select 'test' " , (err,result)=>{
+//     if (err) {
+//         console.log(err.message);
         
-    }else{
-        console.log(result,"welldone ruth!")
-    }
- })
+//     }else{
+//         console.log(result,"well done Ruth!")
+//     }
+//  })
+ module.exports= DBConnection.promise()
