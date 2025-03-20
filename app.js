@@ -28,6 +28,7 @@ async function starter() {
         console.log("Database connected successfully");
         app.listen(port)
         console.log("server is up on localhost:5900")
+        console.log(process.env.JWT_SECRET)
         
      } catch (error) {
         console.log(error.message)
