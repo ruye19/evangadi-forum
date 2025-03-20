@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require('express')
 const userRouter = require('./routes/userRoute')//impoting the route
 
@@ -19,7 +20,7 @@ app.use("api/question",userRouter)
 
 
 
-
+//to connect the db async so on the way we connect the server 
 async function starter() {
      try {
         const result = await DBConnection.execute("select 'test' ")
