@@ -21,15 +21,16 @@ const Login = () => {
             return;
         }
         try {
-            await axios.get('/user/login', {
-                email,
-                password
+            const {data}=await axios.post('/user/login', {
+                "email": email,
+                "password": password
             }); 
-            alert("Login successful")
+            alert("Login successfu ", )
+            localStorage.setItem('token', data.token);
             navigator('/')
         } catch (error) {
-            console.log(error.response.data);
-            alert("Server error")
+            console.log(error.response.data.msg);
+            alert(error.response.data.msg)
         }           
     };
 

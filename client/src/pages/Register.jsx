@@ -30,17 +30,18 @@ const Register = () => {
 
     try {
         await axios.post('/user/register',{
-            username,
-            firstname,
-            lastname,
-            email,
-            password
+            'username':username,
+            'firstname':firstname,
+            'lastname':lastname,
+            'email':email,
+            'password':password
+
         })
         alert("User registered successfully")
         navigator('/login')
     } catch (error) {
-        alert("Server error")
-        console.log(error.respons)
+        alert(error.response.data.msg)
+        console.log(error.response.data)
     }
 
     }
