@@ -7,6 +7,8 @@ const DBConnection = require('./db/dbConfig');//db connection
 const app = express();
 const port = 5900;
 
+const cors = require('cors')
+app.use(cors())
 
 //json middleware to extract json data 
 app.use(express.json())
