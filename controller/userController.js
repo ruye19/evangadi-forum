@@ -63,9 +63,13 @@ const login = async (req, res) => {
 
         const username = user[0].username;
         const userid = user[0].userid;
-        const token = jwt.sign({ username, userid },process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = jwt.sign({ username, userid }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-        return res.status(200).json({ msg: "User login successful", token ,username});
+        return res.status(200).json({ 
+            msg: "User login successful", 
+            token,
+            user: { username, userid }
+        });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({ msg: "Server faced an error" });
@@ -74,8 +78,10 @@ const login = async (req, res) => {
 
 async function checkUser(req, res) {
     const username = req.user.username;
-    const userid = req.user.userid // Access the user data attached by the middleware
-    return res.status(200).json({ msg: 'Nice, we check the user ', username ,userid });
+    const userid = req.user.userid;
+    return res.status(200).json({ 
+        user: { username, userid } 
+    });
 }
 
 module.exports = { register, login, checkUser };

@@ -1,59 +1,59 @@
-import React from 'react';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import axios from '../api/axiosConfig';
 import { useNavigate } from 'react-router';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const emailDom = useRef();
+  const passwordDom = useRef();
 
-    const navigator = useNavigate();
-       
-    const emailDom = useRef();
-    const passwordDom = useRef();       
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+    const email = emailDom.current.value;
+    const password = passwordDom.current.value;
 
-        const email = emailDom.current.value;
-        const password = passwordDom.current.value;
+    if (!email || !password) {
+      alert('Please fill all fields');
+      return;
+    }
 
-        if (!email || !password) {
-            alert("Please fill all fields");
-            return;
-        }
-        try {
-            const {data}=await axios.post('/user/login', {
-                "email": email,
-                "password": password
-            }); 
-            alert("Login successfu ", )
-            localStorage.setItem('token', data.token);
-            navigator('/')
-        } catch (error) {
-            console.log(error.response.data.msg);
-            alert(error.response.data.msg)
-        }           
-    };
+    try {
+      const { data } = await axios.post('/user/login', {
+        email,
+        password,
+      });
 
+      alert('Login successful');
+      console.log(data.token);
 
-    return (
+      // Store both token and user
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user)); // Assuming backend sends user info
+      console.log('Token from localStorage:', localStorage.getItem('token'));
+      navigate('/');
+    } catch (error) {
+      console.log(error.response?.data?.msg);
+      alert(error.response?.data?.msg || 'Login failed');
+    }
+  };
+
+  return (
+    <div>
+      <h1>Login Page</h1>
+      <form onSubmit={handleLogin}>
         <div>
-            <h1>Login Page</h1>
-            <form onSubmit={handleLogin}>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                    ref={emailDom}
-                    type="email" id="email" name="email" required />
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input  ref={passwordDom}
-                    type="password" id="password" name="password" required />
-                </div>
-                <button type="submit">Login</button>
-            </form>
+          <label>Email:</label>
+          <input ref={emailDom} type="email" required />
         </div>
-    );
+        <div>
+          <label>Password:</label>
+          <input ref={passwordDom} type="password" required />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
 };
 
 export default Login;
