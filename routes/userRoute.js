@@ -9,7 +9,7 @@ const { register, login,checkUser } = require('../controller/userController');
 
 
 router.post('/register',register)
-router.get('/login',login)
+router.post('/login',login)
 router.get('/check', authMiddleware,checkUser)
 
 
